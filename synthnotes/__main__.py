@@ -45,15 +45,15 @@ def preprocess(pq_files, output, mimic_notes):
     p.preprocess()
 
 @cli.command()
-@click.option('--pq_files', default='data/somedir', help='File path to processed xml data parquet files')
-@click.option('--output', default='data/xml_extracted', help='File path to storage for clustering data')
+@click.option('--pq_files', default='data/processed_dfs', help='File path to processed xml data parquet files')
+@click.option('--output', default='data/clustering', help='File path to storage for clustering data')
 def cluster(pq_files, output):
     clusterer = Clusterer(pq_files, output)
     clusterer.cluster()
 
 @cli.command()
 @click.option('-n', default=1, help='Number of notes to generate')
-@click.option('--pq_files', default='data/somedir', help='File path to processed xml data parquet files')
+@click.option('--pq_files', default='data/clustering', help='File path to clustering data')
 @click.option('--output', default='data/generated_notes', help='File path to output generated notes')
 def generate(n, pq_files, output):
     gen = Generator(pq_files, output)
