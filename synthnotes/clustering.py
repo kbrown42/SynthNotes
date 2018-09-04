@@ -105,12 +105,7 @@ def template_filler(template, sentences, entities, all_mentions):
     return new_sentence, entities
     
         
-        
-# Find all the text associated with the cui of the mention in the template
-# choose a text span based on frequency
-def get_text_for_mention(cui, mentions):
-    txt_counts = mentions[mentions.cui == cui].groupby('text').size().reset_index(name='cnt')
-    return txt_counts.sample(n=1, weights=txt_counts.cnt).iloc[0].text
+    
 
 
 
