@@ -9,13 +9,6 @@ Clone the repository:
 ```
 $ git clone https://code.ornl.gov/kb0/SynthNotes-V2.git
 ```
-<!-- Running locally -->
-<!-- What do you need to clone? -->
-<!-- What needs to be installed before? -->
-<!-- What are the overall steps -->
-<!-- What files are expected to be present? -->
-
-<!-- Running distributed -->
 
 ## Python Environment
 SynthNotes uses Python 3.6.  Make sure you have a compatible version of Python installed. I think pyarrow depends on 3.6 and is not yet compatible with Python 3.7.  It is also recommended to use some kind of virtual environment tool such as virtualenv or anaconda.  
@@ -32,10 +25,6 @@ Parsing also needs to know where the cTAKES output xml files are.  This filepath
 ```
 $ python __main__.py parse --help
 ```
-
-## HDFS
-
-## RabbitMQ
 
 # Running
 As mentioned above, cTAKES must first be run on the mimic notes data and that output stored in a place where the python program can access it.  That filepath should be passed to the command line arguments.  You may pass `--help` to the command line program to see more information on those variables.
@@ -64,4 +53,8 @@ $ python __main__.py cluster --pq_files path/to/parquet/files
 
 `--pq_files` for clustering should be the `--output` from the preprocessing stage.
 
-Info on generating notes:
+Finally, note generation can be done with:
+
+```
+$ python __main__.py generate -n 100 --output path/to/output/dir
+```
