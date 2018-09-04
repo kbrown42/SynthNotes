@@ -1,1 +1,1 @@
-from xml_processing.ctakes_xml import CtakesXmlParser
+from synthnotes.xml_processing.ctakes_xml import CtakesXmlParser
