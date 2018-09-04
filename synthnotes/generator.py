@@ -36,7 +36,7 @@ class Generator(object):
             
             ent_cui = rand_ent.iloc[0].cui
 
-            span_text = get_text_for_mention(ent_cui, all_mentions)
+            span_text = self.get_text_for_mention(ent_cui, all_mentions)
             replacements.append({
                 'text' : span_text,
                 'begin' : row.begin - sent_begin,
