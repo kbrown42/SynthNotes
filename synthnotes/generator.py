@@ -2,11 +2,12 @@
 
 
 class Generator(object):
-    def __init__(self, output_dir):
+    def __init__(self, pq_files, output_dir):
+        self.pq_files = pq_files
         self.output_dir = output_dir
 
-    def template_filler(template, sentences, entities, all_mentions):
-        num_start = len(entities)
+
+    def template_filler(self, template, sentences, entities, all_mentions):
         
         template_id = template.iloc[0]['sent_id']
         
@@ -20,7 +21,6 @@ class Generator(object):
         raw_text = raw_sentence.iloc[0].text
         
         replacements = []
-
 
         for i, row in ments_in_temp.iterrows():
             ents_subset = entities[entities.mention_type == row.mention_type]
@@ -55,19 +55,31 @@ class Generator(object):
             new_sentence += raw_text[replacements[-1]['end'] : ]
             
         # clean up
-        num_end = len(entities)
         return new_sentence, entities
     
         
         
     # Find all the text associated with the cui of the mention in the template
     # choose a text span based on frequency
-    def get_text_for_mention(cui, mentions):
+    def get_text_for_mention(self,cui, mentions):
         txt_counts = mentions[mentions.cui == cui].groupby('text').size().reset_index(name='cnt')
         return txt_counts.sample(n=1, weights=txt_counts.cnt).iloc[0].text
 
-
     def generate(self, n_notes=1):
+        templates = pd.read_parquet(f'{self.data_dir}/templates.parquet' )
+        sentences = pd.read_parquet(f'{self.data_dir}/sentences.parquet')
+        mentions = pd.read_parquet(f'{self.data_dir}/mentions.parquet')
+        umls = pd.read_parquet(f'{self.data_dir}/umls.parquet')
+
+        for i in range(n_notes):
+            note = self._generate(templates, sentences, mentions, umls)
+            with open(f'{self.output_dir}/note_{i}.txt', 'w'):
+                f.write(note)
+
+    def _generate(self, templates, sentences, mentions, umls):
+        
+        doc = notes.sample(n=1)
+        doc_id = doc['ROW_ID'].iloc[0]
         ents_in_doc = mentions[mentions['doc_id'] == doc_id]
 
         new_doc_sentences = []
@@ -122,7 +134,7 @@ class Generator(object):
             ments_in_temp = mentions[mentions.sent_id == template_id]
 
             # Write the sentence and update entities found in the document !!!
-            t, ents_in_doc = template_filler(template, sentences, ents_in_doc, mentions_pool)
+            t, ents_in_doc = self.template_filler(template, sentences, ents_in_doc, mentions_pool)
             new_doc_sentences.append(t)
             sent_pos += 1
 

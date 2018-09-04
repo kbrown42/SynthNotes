@@ -1,7 +1,7 @@
 # Overview
 This is the repository for the second version of SynthNotes, a clinical note generation tool for researchers seeking to make their own datasets for studying natural language processing.  This is currently an alpha release; a prototype for development and proof of concept. 
 
-There are two options for installation and running: either locally only, or distributed.  Regardless, note generation happens locally and for the time being will be constrained by your local machines RAM.  For now, it is suggested to install locally and not rely on the distributed tools like HDFS and RabbitMQ.  
+There are two options for installation and running: either locally only, or distributed.  Regardless, note generation happens locally and for the time being will be constrained by your local machine's RAM.  For now, it is suggested to install locally and not rely on the distributed tools like HDFS and RabbitMQ. 
 
 # Installation
 

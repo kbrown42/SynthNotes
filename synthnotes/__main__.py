@@ -51,10 +51,11 @@ def cluster():
     clusterer.cluster()
 
 @cli.command()
-@click.option('-n', default=1, help='Number of notes to geenrate')
+@click.option('-n', default=1, help='Number of notes to generate')
+@click.option('--pq_files', default='data/somedir', help='File path to processed xml data parquet files')
 @click.option('--output', default='data/generated_notes', help='File path to output generated notes')
-def generate(n, output):
-    gen = Generator(output)
+def generate(n, pq_files, output):
+    gen = Generator(pq_files, output)
     gen.generate(n_notes=n)
 
 
