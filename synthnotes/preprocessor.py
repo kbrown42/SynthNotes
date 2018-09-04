@@ -95,17 +95,13 @@ class Preprocessor(object):
 
         sem_df = sem_df.merge(self.sents[['sent_id', 'sentence_number', 'doc_id', 'begin', 'end']],
                             left_on='sent_id', right_on='sent_id' )
-        print(sem_df.head())
-        print(sem_df.shape)
+
         temp_by_pos = pd.crosstab(sem_df['sem_template'], sem_df['sentence_number']).apply(lambda x: x / x.sum(), axis=0)
 
 
         # Store dataframes for clustering later
         sents_with_mentions.to_parquet(f'{self.output}/sentences.parquet')
         self.mentions.to_parquet(f'{self.output}/mentions.parquet')
-
-        # self.preds.to_parquet(f'{self.output}/predicates.parquet')
-
         self.umls.to_parquet(f'{self.output}/umls.parquet')
 
         sem_df.to_parquet(f'{self.output}/templates.parquet')
@@ -159,11 +155,6 @@ class Preprocessor(object):
         end = row['end']
         row['TEXT'] = row['TEXT'][begin:end]
         return row
-
-    # def write_notes(self, row):
-    #     fn = f'raw_notes/{row["ROW_ID"]}'
-    #     with open(fn, 'w') as f:
-    #         f.write(row['TEXT'])
             
     def get_text_from_sentence(self, row, notes):
         doc = notes[notes['ROW_ID'] == row['doc_id']]

@@ -34,9 +34,16 @@ class Clusterer(object):
         sentences = sentences.merge(templates[['sent_id', 'cluster']], on='sent_id')
         mentions = mentions.merge(templates[['sent_id', 'cluster']], on='sent_id')
 
+        cluster_label_by_sentence_pos = pd.crosstab(templates['cluster']
+                                            ,templates['sentence_number']
+                                           ).apply(lambda x: x / x.sum(), axis=0)
+
         templates.to_parquet(f'{self.output}/templates.parquet')
         sentences.to_parquet(f'{self.output}/sentences.parquet')
         mentions.to_parquet(f'{self.output}/mentions.parquet')
+        umls.to_parquet(f'{self.output}/umls.parquet')
+        cluster_label_by_sentence_pos.columns = list(map(str, cluster_label_by_sentence_pos.columns))
+        cluster_label_by_sentence_pos.to_parquet(f'{self.output}/cluster_by_pos.parquet')
 
 
 def get_vectors(df):

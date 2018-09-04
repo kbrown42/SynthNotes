@@ -1,9 +1,10 @@
+import pandas as pd
 
 
 
 class Generator(object):
     def __init__(self, pq_files, output_dir):
-        self.pq_files = pq_files
+        self.data_dir = pq_files
         self.output_dir = output_dir
 
 
@@ -55,9 +56,7 @@ class Generator(object):
             new_sentence += raw_text[replacements[-1]['end'] : ]
             
         # clean up
-        return new_sentence, entities
-    
-          
+        return new_sentence, entities              
 
     def get_text_for_mention(self,cui, mentions):
         # Find all the text associated with the cui of the mention in the template
@@ -70,16 +69,18 @@ class Generator(object):
         sentences = pd.read_parquet(f'{self.data_dir}/sentences.parquet')
         mentions = pd.read_parquet(f'{self.data_dir}/mentions.parquet')
         umls = pd.read_parquet(f'{self.data_dir}/umls.parquet')
+        cluster_label_by_sentence_pos = pd.read_parquet(f'{self.data_dir}/cluster_by_pos.parquet')                                           
 
         for i in range(n_notes):
-            note = self._generate(templates, sentences, mentions, umls)
-            with open(f'{self.output_dir}/note_{i}.txt', 'w'):
+            note = self._generate(templates, sentences, mentions, umls, cluster_label_by_sentence_pos)
+            with open(f'{self.output_dir}/note_{i}.txt', 'w') as f:
                 f.write(note)
 
-    def _generate(self, templates, sentences, mentions, umls):
+    def _generate(self, templates, sentences, mentions, umls, cluster_label_by_sentence_pos):
         
-        doc = notes.sample(n=1)
-        doc_id = doc['ROW_ID'].iloc[0]
+        doc = sentences['doc_id'].sample(n=1)
+        doc_id = doc.iloc[0]
+        print(f'Writing note for document {doc_id}')
         ents_in_doc = mentions[mentions['doc_id'] == doc_id]
 
         new_doc_sentences = []
