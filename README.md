@@ -23,7 +23,7 @@ SynthNotes version 2 is built off of clinical notes in the Mimic-III database.  
 Parsing also needs to know where the cTAKES output xml files are.  This filepath is pass as a command line argument.  See the help page for information on those variables.
 
 ```
-$ python __main__.py parse --help
+$ synthnotes parse --help
 ```
 
 # Running
@@ -32,7 +32,7 @@ As mentioned above, cTAKES must first be run on the mimic notes data and that ou
 Once cTAKES has been run and the xml assembled into a single directory, then the parser must be run.  
 
 ```
-$ python __main__.py parse --xml_dir path/to/ctakes/xml/files \
+$ synthnotes parse --xml_dir path/to/ctakes/xml/files \
 --output path/to/store/extracted/parquet/data \
 --fs [local | hdfs]
 ```
@@ -41,14 +41,14 @@ Once the parsing is complete, a set of parquet files containing the extracted xm
 
 To run preprocessing run:
 ```
-$ python __main__.py preprocess --pq_files parquet/files/path \
+$ synthnotes preprocess --pq_files parquet/files/path \
 --output path/to/output/dir \
 --mimic_notes path/to/mimic-notes/parquet/file
 
 To perform clustering run: 
 
 ```
-$ python __main__.py cluster --pq_files path/to/parquet/files
+$ synthnotes cluster --pq_files path/to/parquet/files
 ```
 
 `--pq_files` for clustering should be the `--output` from the preprocessing stage.
@@ -56,5 +56,5 @@ $ python __main__.py cluster --pq_files path/to/parquet/files
 Finally, note generation can be done with:
 
 ```
-$ python __main__.py generate -n 100 --output path/to/output/dir
+$ synthnotes generate -n 100 --output path/to/output/dir
 ```
