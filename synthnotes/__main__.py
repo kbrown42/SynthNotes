@@ -46,8 +46,9 @@ def preprocess(pq_files, output, mimic_notes):
 
 @cli.command()
 @click.option('--pq_files', default='data/somedir', help='File path to processed xml data parquet files')
-def cluster():
-    clusterer = Clusterer()
+@click.option('--output', default='data/xml_extracted', help='File path to storage for clustering data')
+def cluster(pq_files, output):
+    clusterer = Clusterer(pq_files, output)
     clusterer.cluster()
 
 @cli.command()

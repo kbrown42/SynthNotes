@@ -10,8 +10,9 @@ from sklearn.cluster import KMeans, MiniBatchKMeans
 
 
 class Clusterer(object):
-    def __init__(self, pq_files):
+    def __init__(self, pq_files, output):
         self.data_dir = pq_files
+        self.output = output
 
     def cluster(self, n_clusters=120):
         templates = pd.read_parquet(f'{self.data_dir}/templates.parquet' )
@@ -32,6 +33,10 @@ class Clusterer(object):
 
         sentences = sentences.merge(templates[['sent_id', 'cluster']], on='sent_id')
         mentions = mentions.merge(templates[['sent_id', 'cluster']], on='sent_id')
+
+        templates.to_parquet(f'{self.output}/templates.parquet')
+        sentences.to_parquet(f'{self.output}/sentences.parquet')
+        mentions.to_parquet(f'{self.output}/mentions.parquet')
 
 
 def get_vectors(df):
