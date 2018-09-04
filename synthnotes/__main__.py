@@ -2,7 +2,7 @@ import click
 import os
 import pandas as pd
 
-from synthnotes.xml_processing import CtakesXmlParser
+from xml_processing import CtakesXmlParser
 from synthnotes.preprocessor import Preprocessor
 from synthnotes.clustering import Clusterer
 from synthnotes.generator import Generator

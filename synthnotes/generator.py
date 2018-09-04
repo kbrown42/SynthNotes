@@ -57,11 +57,11 @@ class Generator(object):
         # clean up
         return new_sentence, entities
     
-        
-        
-    # Find all the text associated with the cui of the mention in the template
-    # choose a text span based on frequency
+          
+
     def get_text_for_mention(self,cui, mentions):
+        # Find all the text associated with the cui of the mention in the template
+        # choose a text span based on frequency
         txt_counts = mentions[mentions.cui == cui].groupby('text').size().reset_index(name='cnt')
         return txt_counts.sample(n=1, weights=txt_counts.cnt).iloc[0].text
 
