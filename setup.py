@@ -20,7 +20,8 @@ requirements = [
     "fastparquet",
     "stringdist",
     "python-snappy",
-    "snappy",
+    "scikit-learn",
+    "scipy",
 
 ]
 
