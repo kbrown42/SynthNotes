@@ -2,8 +2,8 @@
 
 
 class Generator(object):
-    def __init__(self):
-        pass
+    def __init__(self, output_dir):
+        self.output_dir = output_dir
 
     def template_filler(template, sentences, entities, all_mentions):
         num_start = len(entities)

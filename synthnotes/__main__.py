@@ -54,8 +54,8 @@ def cluster():
 @click.option('-n', default=1, help='Number of notes to geenrate')
 @click.option('--output', default='data/generated_notes', help='File path to output generated notes')
 def generate(n, output):
-    gen = Generator()
-    notes = gen.generate(n_notes=n)
+    gen = Generator(output)
+    gen.generate(n_notes=n)
 
 
 def get_files(fs, dirpath):
