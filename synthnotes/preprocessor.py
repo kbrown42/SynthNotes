@@ -4,10 +4,7 @@ import pyarrow as pa
 import pyarrow.parquet as pq
 from fastparquet import ParquetFile
 import os
-# from ctakes_xml import CtakesXmlParser
-# from sklearn.feature_extraction.text import TfidfVectorizer
 from stringdist import levenshtein_norm as lev_norm
-# import matplotlib
 
 
 
