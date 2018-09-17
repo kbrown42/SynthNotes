@@ -48,7 +48,6 @@ class Preprocessor(object):
         self.umls = self.umls[~self.umls['preferred_text'].isna()]
 
         # Prep mentions
-        # self.mentions = self.get_df_from_pq(self.pq_file_dir, 'mentions')
         self.mentions = self.transform_mentions(self.mentions)
 
         # Add original text to mentions
@@ -102,7 +101,6 @@ class Preprocessor(object):
         self.umls.to_parquet(f'{self.output}/umls.parquet')
 
         sem_df.to_parquet(f'{self.output}/templates.parquet')
-
 
     def get_df_from_pq(self, root, name):
         return pq.read_table(f'{root}/{name}').to_pandas()

@@ -82,9 +82,16 @@ class Generator(object):
         doc_id = doc.iloc[0]
         print(f'Writing note for document {doc_id}')
         ents_in_doc = mentions[mentions['doc_id'] == doc_id]
-
+        
         new_doc_sentences = []
         sent_pos = 0
+
+        def all_ents_present(row, doc_ents, ments_pool):
+                # Get mentions in this template
+                all_temp_ments = ments_pool[ments_pool['sent_id'] == row['sent_id']]
+                available_mentions = all_temp_ments[all_temp_ments['mention_type'].isin(doc_ents['mention_type'])]
+                
+                return (len(available_mentions) > 0)
 
         while len(ents_in_doc) > 0:
             # Get list of possible mentions based on CUIs found in the document
@@ -94,13 +101,6 @@ class Generator(object):
             # Get template pool based on mentions pool
             template_candidates = templates[templates.sent_id.isin(mentions_pool.sent_id)]
             
-            def all_ents_present(row, doc_ents, ments_pool):
-                # Get mentions in this template
-                all_temp_ments = ments_pool[ments_pool['sent_id'] == row['sent_id']]
-                available_mentions = all_temp_ments[all_temp_ments['mention_type'].isin(doc_ents['mention_type'])]
-                
-                return (len(available_mentions) > 0)
-                
             mask = template_candidates.apply(all_ents_present,
                                             args=(ents_in_doc, mentions_pool),
                                             axis=1)
